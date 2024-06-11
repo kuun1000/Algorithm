@@ -1,4 +1,8 @@
 n = int(input())
-nums = list(map(int, input()))
+numbers = list(map(int, input()))
 
-print(sum(nums))
+result = 0
+for i in range(n):
+    result += numbers[i]
+
+print(result)
