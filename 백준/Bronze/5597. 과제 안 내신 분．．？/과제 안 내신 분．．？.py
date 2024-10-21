@@ -1,13 +1,8 @@
-# 전체 출석번호 배열
-nums = [i for i in range(1, 31)]
+arr = set([int(input()) for _ in range(28)])
+num = set([i for i in range(1, 31)])
 
-# 28명의 출석번호에 대해
-for _ in range(28):
-    # 전체에서 해당 출석번호 제거
-    nums.remove(int(input()))
+remain = list(num - arr)
+remain.sort()
 
-# 오름차순 정렬
-nums.sort()
-
-for elem in nums:
-    print(elem)
+for r in remain:
+    print(r)
