@@ -1,12 +1,8 @@
-X = int(input())
-N = int(input())
+x = int(input())
 
-total = 0
-for _ in range(N):
+result = 0
+for _ in range(int(input())):
     a, b = tuple(map(int, input().split()))
-    total += a * b
+    result += a * b
 
-if X == total:
-    print("Yes")
-else:
-    print("No")
+print("Yes" if x == result else "No")
