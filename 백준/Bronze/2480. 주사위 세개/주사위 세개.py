@@ -1,14 +1,10 @@
-dices = list(map(int, input().split()))
-dices.sort()
-dices_set = set(dices)
+a, b, c = tuple(map(int, input().split()))
 
-if len(dices_set) == 1:
-    print(10000 + dices[0] * 1000)
-elif len(dices_set) == 2:
-    for i in range(3):
-        cnt = dices.count(dices[i])
-        if cnt == 2:
-            print(1000 + dices[i] * 100)
-            break
+if a == b == c:
+    print(10000 + a * 1000)
+elif a == b or a == c:
+    print(1000 + a * 100)
+elif b == c:
+    print(1000 + b *100)
 else:
-    print(max(dices) * 100)
+    print(max(a, b, c) * 100)
