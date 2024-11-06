@@ -1,18 +1,16 @@
-import sys
-
+import sys 
 input = sys.stdin.readline
 
 n = int(input())
-A = list(map(int, input().split()))
-ans = [0] * n
-myStack = []
+arr = list(map(int, input().split()))
+
+result = [-1] * n
+stack = []
 
 for i in range(n):
-    while myStack and A[myStack[-1]] < A[i]:   # 오큰수 조건
-        ans[myStack.pop()] = A[i]
-    myStack.append(i)
+    while stack and arr[stack[-1]] < arr[i]:
+        index = stack.pop()
+        result[index] = arr[i]
+    stack.append(i)
 
-while myStack:
-    ans[myStack.pop()] = -1
-
-print(*ans)
+print(*result)
