@@ -1,8 +1,13 @@
-s = input()
+import sys
+input = sys.stdin.readline
 
-# 알파벳별 처음 등장 위치에 대한 배열
-pos = [-1] * 26
-for elem in s:
-    pos[ord(elem) - ord('a')] = s.index(elem)
+s = list(input().strip())
 
-print(*pos)
+result = [-1] * 26
+
+for i, elem in enumerate(s):
+    idx = ord(elem) - ord('a')
+    if result[idx] == -1:
+        result[idx] = i
+
+print(*result)
