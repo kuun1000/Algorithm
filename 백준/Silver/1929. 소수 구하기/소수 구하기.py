@@ -2,15 +2,13 @@ import math
 
 m, n = tuple(map(int, input().split()))
 
-array = [True for i in range(n+1)]
+array = [True] * (n + 1)
+array[0] = array[1] = False
 
 for i in range(2, int(math.sqrt(n)) + 1):
-    if array[i] == True:
-        j = 2
-        while i * j <= n:
-            array[i * j] = False
-            j += 1
+    if array[i]:
+        for j in range(i * i, n + 1, i):
+            array[j] = False
 
-for i in range(m, n + 1):
-    if array[i] and i >= 2:
-        print(i)
+result = [i for i in range(m, n + 1) if array[i]]
+print("\n".join(map(str, result)))
