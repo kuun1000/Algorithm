@@ -1,15 +1,20 @@
-def backtrack(n, m, nums, visited, seq):
-    if len(seq) == m:
-        print(*seq)
+def backtrack():
+    if len(result) == m:
+        print(*result)
         return
 
     for i in range(n):
         if not visited[i]:
             visited[i] = True
-            backtrack(n, m, nums, visited, seq + [nums[i]])
+            result.append(nums[i])
+            backtrack()
+            result.pop()
             visited[i] = False
 
 n, m = map(int, input().split())
 nums = sorted(list(map(int, input().split())))
+
 visited = [False] * (n)
-backtrack(n, m, nums, visited, [])
+result = []
+
+backtrack()
