@@ -3,9 +3,9 @@ def backtrack(n, m, seq):
         print(*seq)
         return
 
-    for i in range(1, n+1):
-        if len(seq) != 0 and seq[-1] > i:
-            continue
+    start = seq[-1] if seq else 1
+
+    for i in range(start, n+1):
         backtrack(n, m, seq + [i])
 
 n, m = map(int, input().split())
