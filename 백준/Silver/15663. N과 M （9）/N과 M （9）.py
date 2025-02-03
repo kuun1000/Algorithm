@@ -8,7 +8,9 @@ def backtrack(visited, seq):
         if not visited[i] and nums[i] not in used:
             visited[i] = True
             used.add(nums[i])
-            backtrack(visited, seq + [nums[i]])
+            seq.append(nums[i])
+            backtrack(visited, seq)
+            seq.pop()
             visited[i] = False
 
 
