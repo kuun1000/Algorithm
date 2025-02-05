@@ -3,12 +3,12 @@ def backtrack(seq):
         print(*seq)
         return
     
-    used = set()
+    prev = -1
 
     for i in range(n):
-        if nums[i] in used:
+        if nums[i] == prev:
             continue
-        used.add(nums[i])
+        prev = nums[i]
         backtrack(seq + [nums[i]])
 
 n, m = map(int, input().split())
