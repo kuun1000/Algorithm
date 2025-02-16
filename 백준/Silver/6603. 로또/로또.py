@@ -4,10 +4,7 @@ def combination(seq, start):
         return
     
     for i in range(start, len(s)):
-        if not visited[i]:
-            visited[i] = True
-            combination(seq+[s[i]], i+1)
-            visited[i] = False
+        combination(seq+[s[i]], i+1)
 
     
 
@@ -18,6 +15,5 @@ while True:
     if k == 0:
         break
     
-    visited = [False] * k
     combination([], 0)
     print()
