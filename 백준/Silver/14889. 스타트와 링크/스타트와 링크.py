@@ -24,6 +24,7 @@ def minimum_ability(index, count):
         link_ability = calculate_ability(link_team)
 
         min_ability = min(min_ability, abs(start_ability - link_ability))
+        return
 
     for i in range(index, n):
         if not visited[i]:
