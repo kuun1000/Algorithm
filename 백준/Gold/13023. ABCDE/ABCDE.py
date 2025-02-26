@@ -1,11 +1,9 @@
+import sys
+
 def dfs(node, depth):
-    global found
-    if found:
-        return 
-    
     if depth == 4:
-        found = True
-        return
+        print(1)
+        sys.exit()
     
     for friend in relations[node]:
         if not visited[friend]:
@@ -23,7 +21,9 @@ for _ in range(m):
     relations[a].append(b)
     relations[b].append(a)
 
-found = False
+for i in range(n):
+    relations[i].sort()
+
 visited = [False] * n
 
 for i in range(n):
@@ -31,4 +31,4 @@ for i in range(n):
     dfs(i, 0)
     visited[i] = False
 
-print(1 if found else 0)
+print(0)
