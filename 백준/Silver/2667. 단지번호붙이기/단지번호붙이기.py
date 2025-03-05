@@ -1,11 +1,7 @@
 from collections import deque
 import sys
-sys.setrecursionlimit(10**7)
 input = sys.stdin.readline
 
-
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
 
 def is_valid(x, y, n):
     return 0 <= x < n and 0 <= y < n
