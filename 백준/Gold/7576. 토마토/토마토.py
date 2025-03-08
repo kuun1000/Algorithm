@@ -1,44 +1,38 @@
 from collections import deque
 import sys
-input = sys.stdin.readline
 
+def bfs_tomato(grid, M, N):
+    queue = deque()
+    days = -1  # BFS 레벨(일 수) 추적
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # 상하좌우 이동
 
-def is_bounds(x, y, n, m):
-    return 0 <= x < n and 0 <= y < m
+    # 1. 익은 토마토 위치를 큐에 추가
+    for i in range(N):
+        for j in range(M):
+            if grid[i][j] == 1:
+                queue.append((i, j, 0))  # (세로 위치, 가로 위치, 경과 일수)
 
-def bfs(box, visited, ripes, n, m):
-    queue = deque(ripes)
-    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-
+    # 2. BFS 수행
     while queue:
-        cx, cy, day = queue.popleft()
+        x, y, day = queue.popleft()
+        days = max(days, day)  # 최대 일수 업데이트
+
         for dx, dy in directions:
-            nx, ny = cx + dx, cy + dy
-            if is_bounds(nx, ny, n, m) and box[nx][ny] == 0 and not visited[nx][ny]:
-                visited[nx][ny] = True
-                box[nx][ny] = day + 1
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < N and 0 <= ny < M and grid[nx][ny] == 0:
+                grid[nx][ny] = 1  # 익음 처리
                 queue.append((nx, ny, day + 1))
 
+    # 3. 모든 토마토가 익었는지 확인
+    for row in grid:
+        if 0 in row:
+            return -1  # 익지 않은 토마토가 남아 있으면 실패
 
+    return days
 
-m, n = map(int, input().split())
-box = [list(map(int, input().split())) for _ in range(n)]
-visited = [[False] * m for _ in range(n)]
+# 입력 처리
+M, N = map(int, sys.stdin.readline().split())
+grid = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
 
-ripes = []
-for i in range(n):
-    for j in range(m):
-        if box[i][j] == 1:
-            ripes.append((i, j, 1))
-            visited[i][j] = True
-
-bfs(box, visited, ripes, n, m)
-
-max_day = 0
-for i in range(n):
-    for j in range(m):
-        if box[i][j] == 0:
-            print(-1)
-            sys.exit(0)
-        max_day = max(max_day, box[i][j])
-print(max_day - 1)
+# 결과 출력
+print(bfs_tomato(grid, M, N))
