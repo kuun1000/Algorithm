@@ -2,44 +2,43 @@ from collections import deque
 import sys
 input = sys.stdin.readline
 
-def in_bound(x, y, length):
-    return 0 <= x < length and 0 <= y < length
+def in_bound(x, y, board_size):
+    return 0 <= x < board_size and 0 <= y < board_size
 
-def bfs(length, visited, current, target):
-    cx, cy = current
+def bfs(board_size, start, target):
+    visited = [[False] * board_size for _ in range(board_size)]
+    sx, sy = start
     tx, ty = target
 
-    queue = deque([(cx, cy, 0)])
-    visited[cx][cy] = True
+    queue = deque([(sx, sy, 0)])
+    visited[sx][sy] = True
 
-    directions = [(-2, -1), (-1, -2), (1, -2), (2, -1),
+    knight_moves = [(-2, -1), (-1, -2), (1, -2), (2, -1),
                   (-2, 1), (-1, 2), (1, 2), (2, 1)]
     
     while queue:
-        cx, cy, cnt = queue.popleft()
+        sx, sy, moves = queue.popleft()
 
-        if cx == tx and cy == ty:
-            return cnt
+        if sx == tx and sy == ty:
+            return moves
 
-        for dx, dy in directions:
-            nx, ny = cx + dx, cy + dy
-            if in_bound(nx, ny, length) and not visited[nx][ny]:
+        for dx, dy in knight_moves:
+            nx, ny = sx + dx, sy + dy
+            if in_bound(nx, ny, board_size) and not visited[nx][ny]:
                 visited[nx][ny] = True
-                queue.append((nx, ny, cnt+1))
+                queue.append((nx, ny, moves+1))
     return 0
 
 
 
 def solve():
-    length = int(input())
-    current = tuple(map(int, input().split()))
+    board_size = int(input())
+    start = tuple(map(int, input().split()))
     target = tuple(map(int, input().split()))
-    
-    visited = [[False] * length for _ in range(length)]
 
-    print(bfs(length, visited, current, target))
+    print(bfs(board_size, start, target))
 
 
-k = int(input())
-for testcase in range(k):
+t = int(input())
+for _ in range(t):
     solve()
