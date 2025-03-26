@@ -8,21 +8,19 @@ def bfs(n, k):
         return n - k
     
     max_pos = 2 * k + 1
-    visited = [False] * max_pos
-    time = [0] * max_pos
+    time = [-1] * max_pos
 
     queue = deque([n])
-    visited[n] = True
-
+    time[n] = 0
+    
     while queue:
         current = queue.popleft()
 
         if current == k:
-            break
+            return time[k]
 
         for next in (current - 1, current + 1, current * 2):
-            if 0 <= next < len(visited) and not visited[next]:
-                visited[next] = True
+            if 0 <= next < len(time) and time[next] == -1:
                 if next == current * 2:
                     time[next] = time[current]
                     queue.appendleft(next)
@@ -30,7 +28,6 @@ def bfs(n, k):
                     time[next] = time[current] + 1
                     queue.append(next)
 
-    return time[k]
 
 n, k = map(int, input().split())
 time = bfs(n, k)
