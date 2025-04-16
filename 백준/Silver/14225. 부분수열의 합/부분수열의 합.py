@@ -2,23 +2,15 @@ import sys
 input = sys.stdin.readline
 
 
-def find_num(total, start):
-    possible.add(total)
-    
-    for i in range(start, len(s)):
-        find_num(total + s[i], i + 1)
-
-
-
 n = int(input())
 s = list(map(int, input().split()))
 
-possible = set()
+s.sort()
+target = 1
 
-find_num(0, 0)
+for num in s:
+    if num > target:
+        break
+    target += num
 
-i = 1
-while i in possible:
-    i += 1
-
-print(i)
+print(target)
