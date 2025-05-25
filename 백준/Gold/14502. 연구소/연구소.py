@@ -9,39 +9,37 @@ def get_wall_combination(depth, start, combination):
         return 
     
     for i in range(start, len(empty_cells)):
-        combination.append(i)
+        combination.append(empty_cells[i])
         get_wall_combination(depth + 1, i + 1, combination)
         combination.pop()
 
-def deepcopy(array):
+def copy_grid(array):
     return [row[:] for row in array]
 
 def is_valid(x, y):
     return 0 <= x < n and 0 <= y < m
 
-def solve(walls):
-    grid_copy = deepcopy(grid)
+def simulate(walls):
+    grid_copied = copy_grid(grid)
 
     # 벽 세우기
-    for idx in walls:
-        r, c = empty_cells[idx]
-        grid_copy[r][c] = 1
+    for r, c in walls:
+        grid_copied[r][c] = 1
 
     # 바이러스 퍼뜨리기
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-    queue = deque([*virus_sources])
+    queue = deque(virus_sources)
     
     while queue:
         cx, cy = queue.popleft()
-        
         for dx, dy in directions:
             nx, ny = cx + dx, cy + dy
-            if is_valid(nx, ny) and grid_copy[nx][ny] == 0:
-                grid_copy[nx][ny] = 2
+            if is_valid(nx, ny) and grid_copied[nx][ny] == 0:
+                grid_copied[nx][ny] = 2
                 queue.append((nx, ny))
 
-    infected = sum(row.count(0) for row in grid_copy)
-    return infected
+    safe_area = sum(row.count(0) for row in grid_copied)
+    return safe_area
     
 
 
@@ -63,8 +61,8 @@ wall_combinations = []
 get_wall_combination(0, 0, [])
 
 # 조합별 시뮬레이션 수행
-result = 0
+max_safe_area = 0
 for combination in wall_combinations:
-    result = max(result, solve(combination))
+    max_safe_area = max(max_safe_area, simulate(combination))
 
-print(result)
+print(max_safe_area)
