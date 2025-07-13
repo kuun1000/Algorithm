@@ -2,13 +2,14 @@ import sys
 input = sys.stdin.readline
 
 k = int(input())
-numbers = [int(input()) for _ in range(k)]
+stack = []
 
-correct = []
-for num in numbers:
+for _ in range(k):
+    num = int(input())
+
     if num == 0:
-        correct.pop()
+        stack.pop()
     else:
-        correct.append(num)
+        stack.append(num)
 
-print(sum(correct))
+print(sum(stack))
