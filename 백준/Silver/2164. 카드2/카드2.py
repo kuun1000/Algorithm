@@ -8,7 +8,6 @@ cards = deque(list(range(1, n+1)))
 
 while len(cards) > 1:
     cards.popleft()
-    front = cards.popleft()
-    cards.append(front)
+    cards.append(cards.popleft())
 
-print(cards.popleft())
+print(cards[0])
