@@ -9,4 +9,4 @@ result = 0
 for idx, elem in enumerate(arr):
     result += elem * (r**idx)
 
-print(result)
+print(result % m)
