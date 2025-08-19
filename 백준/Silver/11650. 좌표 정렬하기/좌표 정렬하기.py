@@ -2,9 +2,9 @@ import sys
 input = sys.stdin.readline
 
 n = int(input())
+arr = [list(map(int, input().split())) for _ in range(n)]
 
-cords = [list(map(int, input().split())) for _ in range(n)]
-cords.sort(key=lambda cords: (cords[0], cords[1]))
+sorted_arr = sorted(arr, key=lambda x: (x[0], x[1]))
 
-for x, y in cords:
-    print(x, y)
+for elem in sorted_arr:
+    print(*elem)
