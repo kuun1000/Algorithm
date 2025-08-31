@@ -2,49 +2,38 @@ from collections import deque
 import sys
 input = sys.stdin.readline
 
-
 def bfs(start):
-    visited = [False] * (v + 1)
-    distance = [0] * (v + 1)
-
+    visited = [False] * (n+1)
+    dist = [0] * (n+1)
     queue = deque([start])
     visited[start] = True
 
     while queue:
-        current = queue.popleft()
-        for neighbor, dist in tree[current]:
-            if not visited[neighbor]:
-                visited[neighbor] = True
-                distance[neighbor] = distance[current] + dist
-                queue.append(neighbor)
+        u = queue.popleft()
+        for v, w in graph[u]:
+            if not visited[v]:
+                visited[v] = True
+                dist[v] = dist[u] + w
+                queue.append(v)
+    
+    max_dist = max(dist)
+    far_node = dist.index(max_dist)
+    return far_node, max_dist
 
-    max_dist = max(distance)
-    farthest_node = distance.index(max_dist)
+n = int(input())
+graph = [[] for _ in range(n+1)]
 
-    return farthest_node, max_dist
-
-
-v = int(input())
-tree = {}
-
-for _ in range(v):
+for _ in range(n):
     data = list(map(int, input().split()))
-    node = data[0]
-    tree[node] = []
-
+    u = data[0]
     i = 1
     while data[i] != -1:
-        neighbor = data[i]
-        dist = data[i+1]
-        tree[node].append((neighbor, dist))
-
-        if neighbor not in tree:
-            tree[neighbor] = []
-        tree[neighbor].append((node, dist))
-
+        v = data[i]
+        w = data[i+1]
+        graph[u].append((v, w))
         i += 2
 
-u, _ = bfs(1)
-_, d = bfs(u)
+a, _ = bfs(1)           # 임의 노드에서 가장 먼 노드 A 찾기
+_, diameter = bfs(a)    # A에서 가정 먼 노드까지 거리(지름)
 
-print(d)
+print(diameter)
