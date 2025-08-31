@@ -1,66 +1,61 @@
 import sys
+sys.setrecursionlimit(100000)
 input = sys.stdin.readline
 
-def inorder(node, depth):
-    global col 
-    if node == -1:
-        return
+def inorder(u, level):
+    global counter
+    if u == -1:
+        return 
     
-    # 왼쪽 자식 방문
-    inorder(tree[node][0], depth + 1)
+    inorder(left[u], level+1)
 
-    # 현재 노드 방문
-    if depth not in level_min:
-        level_min[depth] = col
-    else:
-        level_min[depth] = min(level_min[depth], col)
+    col = counter
+    counter += 1
 
-    if depth not in level_max:
-        level_max[depth] = col
-    else:
-        level_max[depth] = max(level_max[depth], col)
-    
-    col += 1    # 열 번호 증가
+    if col < min_col[level]:
+        min_col[level] = col
+    if col > max_col[level]:
+        max_col[level] = col
 
-    # 오른쪽 자식 방문
-    inorder(tree[node][1], depth + 1)
-
-
+    inorder(right[u], level+1)
 
 # 1. 입력 처리
 n = int(input())
-tree = {}
-is_child = [False] * (n + 1)
+left = [-1] * (n+1)
+right = [-1] * (n+1)
+indeg = [0] * (n+1)
 
-for _ in range (1, n + 1):
-    node, left, right = map(int, input().split())
-    tree[node] = [left, right]
-    if left != -1:
-        is_child[left] = True
-    if right != -1:
-        is_child[right] = True
+for _ in range(n):
+    p, l, r = map(int, input().split())
+    left[p] = l
+    right[p] = r
+    if l != -1:
+        indeg[l] += 1
+    if r != -1:
+        indeg[r] += 1
 
 # 2. 루트 노드 찾기
-root = None
-for i in range(1, n + 1):
-    if not is_child[i]:
+root = 0
+for i in range(1, n+1):
+    if indeg[i] == 0:
         root = i
         break
 
-# 중위 순회
-level_min, level_max = {}, {}
-col = 1
+# 3. 중위순회
+counter = 1
+INF = 10**9
+min_col = [INF] * (n+2)
+max_col = [0] * (n+2)
 inorder(root, 1)
 
-# 각 레벨별 너비 계산 및 최대 너비 계산
-max_width = 0
-result_level = 0
-max_depth = max(level_max.keys())
+# 4. 레벨별 너비 계산 및 최댓값 찾기
+best_level, best_width = 1, 0
+level = 1
+while level <= n and max_col[level] > 0:
+    width = max_col[level] - min_col[level] + 1
+    if width > best_width:
+        best_width = width
+        best_level = level
+    level += 1
 
-for depth in range(1, max_depth + 1):
-    width = level_max[depth] - level_min[depth] + 1
-    if width > max_width:
-        max_width = width
-        result_level = depth
-
-print(result_level, max_width)
+print(best_level, best_width)
