@@ -7,19 +7,17 @@ def traverse(node, order):
     
     result = ""
     for char in order:
-        if char == "N":
+        if char == 'N':
             result += node
-        elif char == "L":
+        elif char == 'L':
             result += traverse(tree[node][0], order)
-        elif char == "R":
+        elif char == 'R':
             result += traverse(tree[node][1], order)
     return result
 
-
-
-n = int(input())
 tree = {}
-for _ in range (n):
+n = int(input())
+for _ in range(n):
     node, left, right = input().split()
     tree[node] = (left, right)
 
