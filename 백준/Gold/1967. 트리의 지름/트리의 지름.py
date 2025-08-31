@@ -1,38 +1,34 @@
-from collections import defaultdict, deque
+from collections import deque
 import sys
 input = sys.stdin.readline
 
-
 def bfs(start):
     visited = [False] * (n+1)
-    distance = [0] * (n+1)
-
+    dist = [0] * (n+1)
     queue = deque([start])
     visited[start] = True
 
     while queue:
-        current = queue.popleft()
-        for neighbor, dist in tree[current]:
-            if not visited[neighbor]:
-                visited[neighbor] = True
-                distance[neighbor] = distance[current] + dist
-                queue.append(neighbor)
-
-    max_dist = max(distance)
-    farthest_node = distance.index(max_dist)
-
-    return farthest_node, max_dist
-
+        u = queue.popleft()
+        for v, w in graph[u]:
+            if not visited[v]:
+                visited[v] = True
+                dist[v] = dist[u] + w
+                queue.append(v)
+    
+    max_dist = max(dist)
+    far_node = dist.index(max_dist)
+    return far_node, max_dist
 
 n = int(input())
-tree = defaultdict(list)
+graph = [[] for _ in range(n+1)]
 
 for _ in range(n-1):
-    parent, child, weight = map(int, input().split())
-    tree[parent].append((child, weight))
-    tree[child].append((parent, weight))
+    parent, child, weight = list(map(int, input().split()))
+    graph[parent].append((child, weight))
+    graph[child].append((parent, weight))
 
-u, _ = bfs(1)
-_, d = bfs(u)
+a, _ = bfs(1)           
+_, diameter = bfs(a)    
 
-print(d)
+print(diameter)
