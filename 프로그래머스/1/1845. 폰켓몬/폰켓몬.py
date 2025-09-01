@@ -1,10 +1,11 @@
+from collections import Counter
+
 def solution(nums):
-    N = len(nums)   # 총 포켓몬 수
-    answer = len(set(nums)) # 포켓몬 종류의 수
     
-    # 포켓몬 종류의 수 > 최대로 선택 가능한 포켓몬 수 -> N/2 마리
-    if answer > N/2:    
-        return N/2
+    max_select = len(nums) / 2
+    ponketmon = Counter(nums)
     
-    # 포켓몬 종류의 수 <= 최대로 선택 가능한 포켓몬 수 ->  포켓몬 종류의 수
-    return answer   
+    if max_select < len(ponketmon):
+        return max_select
+    else:
+        return len(ponketmon)
